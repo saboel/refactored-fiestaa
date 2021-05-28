@@ -9,6 +9,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl"; 
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { signupNewUser } from "./SignupActions";
 
 class Signup extends Component {
     constructor(props) {
@@ -27,7 +31,7 @@ class Signup extends Component {
             username: this.state.username,
             password: this.state.password
         };
-        console.log("Sign Up " + userData.username + " " + userData.password);
+        this.props.signupNewUser(userData); //signup new user request
     };
 
 
@@ -75,5 +79,17 @@ class Signup extends Component {
         );
     }
 }
-export default Signup;
+
+Signup.propTypes = {
+    signupNewUser: PropTypes.func.isRequired,
+    createUser: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+    createUser: state.createUser
+});
+
+
+export default connect(mapStateToProps, {
+    signupNewUser
+}) (withRouter(Signup));
 
